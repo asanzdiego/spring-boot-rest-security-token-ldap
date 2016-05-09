@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		private String ldapURI = "ldap://192.168.1.2:389/dc=company,dc=com";
 
-		private String ldapUser = "uid=admin,ou=adminstrator,dc=company,dc=com";
+		private String ldapUser = "uid=admin,ou=adminstrators,dc=company,dc=com";
 
 		private String ldapPassword = "password";
 
