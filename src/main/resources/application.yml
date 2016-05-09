@@ -1,0 +1,9 @@
+security:
+  sessions: NEVER
+
+logging:
+  level:
+    org.springframework:
+      security: TRACE
+      session: TRACE
+

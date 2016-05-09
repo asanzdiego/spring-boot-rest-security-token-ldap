@@ -1,1 +1,1 @@
-# spring-boot-rest-secuity-token-ldap
+# spring-boot-rest-security-token-ldap
