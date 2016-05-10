@@ -17,7 +17,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.authentication.configurers.ldap.LdapAuthenticationProviderConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
@@ -28,7 +27,6 @@ import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 import org.springframework.web.cors.CorsUtils;
 
 @Configuration
-//@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
@@ -41,21 +39,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				.requestMatchers(CorsUtils::isCorsRequest).permitAll()
 				.anyRequest().authenticated();*/
+		
+		// https://github.com/spring-projects/spring-boot/issues/5834
 		http
-	        .authorizeRequests()
-	        .requestMatchers(CorsUtils::isCorsRequest).permitAll()
-	        .anyRequest().authenticated()
+	        	.authorizeRequests()
+	        	.requestMatchers(CorsUtils::isCorsRequest).permitAll()
+	        	.anyRequest().authenticated()
 	        .and().httpBasic()
 	        .and().addFilterBefore(new WebSecurityCorsFilter(), ChannelProcessingFilter.class);
 
 	}
 
 
+	/*
+	 * Guía de como configurar el xauth-token con SpringSecurity:
+	 * https://spring.io/guides/tutorials/spring-security-and-angular-js/#_the_resource_server_angular_js_and_spring_security_part_iii
+	 * 
+	 * Ejemplo de como configurar el xauth-token con SpringSecurity:
+	 * https://github.com/spring-guides/tut-spring-security-and-angular-js/tree/master/spring-session
+	 */
 	@Bean
 	HeaderHttpSessionStrategy sessionStrategy() {
 		return new HeaderHttpSessionStrategy();
 	}
 	
+	/*
+	 * Guía de como configurar LDAP con SpringSecurity:
+	 * https://spring.io/guides/gs/authenticating-ldap/#_set_up_spring_security
+	 * 
+	 * Ejemplo de como configurar LDAP con SpringSecurity:
+	 * https://github.com/spring-guides/gs-authenticating-ldap
+	 */
 	@Configuration
 	protected static class AuthenticationConfiguration extends GlobalAuthenticationConfigurerAdapter {
 		
@@ -85,6 +99,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		}
 	}
 	
+	/*
+	 * Explicación clara de CORS:
+	 * http://www.html5rocks.com/en/tutorials/cors/
+	 * 
+	 * Arreglar problema con CORS en Spring:
+	 * https://github.com/spring-projects/spring-boot/issues/5834
+	 */
 	protected class WebSecurityCorsFilter implements Filter {
 	    @Override
 	    public void init(FilterConfig filterConfig) throws ServletException {
