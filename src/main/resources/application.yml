@@ -3,8 +3,6 @@ ldap:
   user: uid=admin,ou=adminstrators,dc=company,dc=com
   password: secret
 
-kk
-
 security:
   sessions: NEVER
 
