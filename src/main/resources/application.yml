@@ -1,9 +1,14 @@
+ldap:
+  uri: ldap://192.168.1.2:389/dc=company,dc=com
+  user: uid=admin,ou=adminstrators,dc=company,dc=com
+  password: secret
+
 security:
   sessions: NEVER
 
 logging:
   level:
     org.springframework:
-      security: TRACE
-      session: TRACE
+      security: INFO
+      session: INFO
 
